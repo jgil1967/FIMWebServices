@@ -1179,6 +1179,7 @@ if (document.getFolder().getId() != 0){
              return "success";
         }
         
+        
            } 
     catch (IOException ex) {
         Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, null, ex);

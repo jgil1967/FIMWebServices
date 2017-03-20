@@ -188,7 +188,7 @@ public class googleDriveDAO implements googleDriveInterface{
           System.out.println("destZipFile : " + destZipFile);
         ZipOutputStream zip = null;
     FileOutputStream fileWriter = null;
-
+    Files.createDirectories(Paths.get(destZipFile).getParent()); 
     fileWriter = new FileOutputStream(destZipFile);
     zip = new ZipOutputStream(fileWriter);
 
