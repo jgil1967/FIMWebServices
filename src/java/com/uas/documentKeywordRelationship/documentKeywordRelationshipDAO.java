@@ -6,6 +6,7 @@
 package com.uas.documentKeywordRelationship;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.document.DocumentDTO;
 import java.sql.Connection;
@@ -26,7 +27,7 @@ public class documentKeywordRelationshipDAO implements documentKeywordRelationsh
         
                  
          try {
-        c = DataSource.getInstance().getConnection(); 
+        c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"documentKeywordRelationship\" (\"idKeyword\",\"idDocument\") VALUES (?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dDto.getIdKeyword());
@@ -67,7 +68,7 @@ public class documentKeywordRelationshipDAO implements documentKeywordRelationsh
         
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "delete from \"public\".\"documentKeywordRelationship\" where \"idDocument\"=? and \"idKeyword\"=?";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dDto.getIdKeyword());
@@ -108,7 +109,7 @@ public class documentKeywordRelationshipDAO implements documentKeywordRelationsh
         
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "delete from \"public\".\"documentKeywordRelationship\" where \"idDocument\"=?";
      	preparedStmt = c.prepareStatement(SQL);
          

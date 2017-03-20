@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>FIM - Documentos</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
+<link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+
+<link href="style/styleLoginMaterial.css" rel="stylesheet" type="text/css"/>
+
+<script src="script/shared/jquery-2.1.4.min.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+    
+$( document ).ready(function() {
+    setTimeout(function(){ /*window.console.log("HELLO");*/ $("#botoningresar").click();}, 3000);
+   
+});
+$(document).keypress(function(e) {
+    if(e.which == 13) {
+        $("#botoningresar").click();
+    }
+});
+$("#username").keypress(function(e) {
+    if(e.which == 13) {
+        $("#botoningresar").click();
+    }
+});
+$("#pwd").keypress(function(e) {
+    if(e.which == 13) {
+        $("#botoningresar").click();
+    }
+});
+
+</script>
+<body>
+  
+<!-- Mixins-->
+<!-- Pen Title-->
+<div class="pen-title">
+  
+</div>
+
+<div class="container">
+  <div class="card"></div>
+  <div class="card">
+      <img src="img/uas.png" alt="" style="width:70px;height:85px; margin-left: 10%"/>
+    <h1 class="title">Iniciar sesión</h1>
+    
+    <form class="box login" id="login" method="post" action="UsuarioServlet"  >
+      <div class="input-container">
+          <input type="#{type}"  placeholder="Nombre de usuario" id="user" name='user' required="required" value="root" autofocus/>
+        
+        <div class="bar"></div>
+      </div>
+      <div class="input-container">
+        <input type="password"  placeholder="Contraseña"  id="pwd" name="pwd"  value="root" required="required"/>
+        
+        <div class="bar"></div>
+      </div>
+        <input type="hidden" name="task" value="iniciarsesionhttp">
+      <div class="button-container" id="botoningresar">
+        <button><span>Entrar</span></button>
+      </div>
+      
+    </form>
+  </div>
+  
+</div>
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="script/shared/index.js" type="text/javascript"></script>
+    
+
+</body>
+</html>

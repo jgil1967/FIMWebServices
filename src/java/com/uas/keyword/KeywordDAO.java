@@ -6,6 +6,7 @@
 package com.uas.keyword;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.document.DocumentDTO;
 import com.uas.transactionRecord.TransactionRecordDTO;
@@ -29,7 +30,7 @@ public class KeywordDAO implements KeywordInterface {
         
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"keyword\" (\"id\") VALUES (?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dDto.getId());
@@ -74,7 +75,7 @@ public class KeywordDAO implements KeywordInterface {
         PreparedStatement ps = null;
        keywords = new ArrayList<KeywordDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"keyword\".\"id\", \"object\".\"name\" FROM \"keyword\" JOIN \"object\" ON \"keyword\".\"id\" = \"object\".\"id\"";
              
                ps = c.prepareStatement(SQL);
@@ -117,7 +118,7 @@ public class KeywordDAO implements KeywordInterface {
         PreparedStatement ps = null;
        keywords = new ArrayList<KeywordDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"object\".\"name\", \"object\".\"description\", \"object\".\"id\", \"object\".\"createdOn\", \"object\".\"createdBy\", \"object\".\"color\", \"object\".\"kind\" FROM \"documentKeywordRelationship\" JOIN \"keyword\" ON \"documentKeywordRelationship\".\"idKeyword\" = \"keyword\".\"id\" JOIN \"object\" ON \"keyword\".\"id\" = \"object\".\"id\" WHERE \"documentKeywordRelationship\".\"idDocument\" = ?";
                ps = c.prepareStatement(SQL);
                ps.setInt(1, dDto.getId());

@@ -27,6 +27,7 @@ public areaDTO area;
        enabled = false;
        root = false;
        availability = true;
+       kind = "user";
        area = new areaDTO();
     }
 

@@ -21,6 +21,11 @@ DocumentRelationshipInterface dao = null;
     return dao.createDocumentRelationship(dto);
     }
 
+    @Override
+    public DocumentRelationshipDTO deleteDocumentRelationship(DocumentRelationshipDTO dto) {
+       return dao.deleteDocumentRelationship(dto);
+    }
+
   
     
 }

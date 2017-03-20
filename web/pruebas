@@ -1,0 +1,1 @@
+SELECT "object"."name", "object"."id", "areaRelationships"."idArea1" FROM "areaRelationships" JOIN "object" ON "areaRelationships"."idArea2" = "object"."id" JOIN "area" ON "areaRelationships"."idArea2" = "area"."id" where "areaRelationships"."idArea1" = 129 and "area"."enabled" = TRUE order by "object"."name" asc

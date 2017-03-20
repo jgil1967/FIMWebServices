@@ -1,0 +1,73 @@
+<div class="col s12 m12" >
+     <md-toolbar class="md-theme-light" >
+    <h2 class="md-toolbar-tools">
+      <span>Mis documentos</span>
+      <md-button style="color: white;" class="md-icon-button" ng-click="createDocument($event)">
+     
+          <md-icon>add</md-icon>
+    </md-button>
+      
+    </h2>
+             
+  </md-toolbar>
+        
+   
+      <label style="border-bottom: black;">
+          <input autofocus placeholder="Búsqueda" style="width: 100%;     border-bottom: 1px solid rgb(33,150,243); margin: 0 0 0px 0;"  ng-model="searchDocumentos">
+      </label>
+     
+  
+
+   
+    
+<!--{{tables}} -->
+<md-table-container>
+  <table data-md-table data-md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" data-ng-model="selected" md-progress="promise">
+
+    <thead ng-if="!options.decapitate" md-head data-md-order="query.order" md-on-reorder="onReorder">
+      <tr md-row>
+        <th md-column md:order:by="name"><span>Nombre</span></th>
+        <th md-column md:order:by="description"><span>Descripción</span></th>
+        
+        <th md-column md:order:by="createdOn"><span>Subido</span></th>
+        <th md-column md:order:by="area.name"><span>Area</span></th>
+         <th md-column ><span>Borrado e invisible</span></th>
+        <th md-column ><span>Editar</span></th>
+        <th md-column ><span>Descarga</span></th>
+        
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="document in documents  | filter:searchDocumentos | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+     <td md-cell>{{ document.name| limitTo: 20 }}{{document.name.length > 20 ? '...' : ''}}</td>
+     <td md-cell>{{ document.description| limitTo: 20 }}{{document.name.length > 20 ? '...' : ''}}</td>
+     
+     <td md-cell>{{document.createdOn | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
+     <td md-cell>{{document.area.name}}</td>
+ <td md-cell>    
+          
+          <md-switch ng-model="document.deleted" aria-label="Habilitado" ng-change="borrarORestaurar(document)">
+     </md-switch>
+         
+         </td>
+     <td md-cell>    
+           <md-button ng-show="document.visible" ng-click="updateDocument($event,document)" class="md-fab md-primary" aria-label="Editar">
+       <i class="material-icons">border_color</i>
+        </md-button>
+         </td>
+     <td md-cell>
+          <md-button ng-href="/FIMWebServices/FIMRest/hello/downloadDocument/{{document.filename}}" class="md-fab md-primary" aria-label="Ver columnas">
+       <i class="material-icons">file_download</i>
+        </md-button>
+     </td>
+ 
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>
+
+<data-md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{documents.length}}" md-on-paginate="onPaginate" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks">
+    
+</data-md-table-pagination>
+
+</div>

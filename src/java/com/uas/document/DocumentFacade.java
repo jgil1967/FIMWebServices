@@ -77,5 +77,30 @@ dDao = new DocumentDAO ();
     public DocumentDTOWithFolderDTO createDocument2(DocumentDTOWithFolderDTO dDto) {
         return dDao.createDocument2(dDto);
     }
+
+    @Override
+    public ArrayList<DocumentDTO> getFolders() {
+        return dDao.getFolders();
+    }
+
+    @Override
+    public DocumentGovernmentDTO getDocumentGovernment() {
+      return dDao.getDocumentGovernment();
+    }
+
+    @Override
+    public ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto) {
+        return dDao.getFoldersChildren(dto);
+    }
+
+    @Override
+    public String moveDocuments(ArrayList<DocumentDTOWithFolderDTO> documents) {
+        return dDao.moveDocuments(documents);
+    }
+
+    @Override
+    public Boolean verificaSiEsDescendiente(ArrayList<DocumentDTOWithFolderDTO> documents) {
+           return dDao.verificaSiEsDescendiente(documents);
+    }
     
 }

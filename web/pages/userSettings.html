@@ -1,0 +1,23 @@
+
+      <div class="row">
+          <label for="password">Contraseña</label>
+        <div class="input-field col s12">
+            <input id="password" type="password"  autofocus ng-model="loggedUser.contrasena">
+          
+        </div>
+      </div>
+     
+     <div class="row">
+         <label for="password">Confirmar contraseña</label>
+        <div class="input-field col s12">
+            <input id="password" type="password"  autofocus ng-model="loggedUser.contrasenaVerify">
+          
+        </div>
+      </div>
+      
+
+    <div class="row">
+     <md-button ng-disabled="loggedUser.contrasena!=loggedUser.contrasenaVerify"  class="md-primary md-raised" ng-click="updatePassword()">
+        Cambiar contraseña
+    </md-button>
+        </div>

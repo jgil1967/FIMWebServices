@@ -6,6 +6,7 @@
 package com.uas.transactionRecord;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class TransactionRecordDAO implements TransactionRecordInterface{
         
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "insert into \"public\".\"transactionRecord\" ( \"idObject\", \"idUsuario\", \"idTransactionType\") values ( ?, ?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dto.getObjectDTO().getId());
@@ -70,7 +71,7 @@ public class TransactionRecordDAO implements TransactionRecordInterface{
         PreparedStatement ps = null;
        list = new ArrayList<TransactionRecordDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"transactionRecord\".\"id\", \"transactionRecord\".\"date\", \"object\".\"name\", \"object2\".\"name\" AS \"nameUsuario\", \"transactionType\".\"name\" AS \"nameObjeto\" FROM \"transactionRecord\" JOIN \"object\" ON \"transactionRecord\".\"idObject\" = \"object\".\"id\" JOIN \"object\" AS \"object2\" ON \"transactionRecord\".\"idUsuario\" = \"object2\".\"id\" JOIN \"transactionType\" ON \"transactionRecord\".\"idTransactionType\" = \"transactionType\".\"id\" order by \"transactionRecord\".\"date\" desc";
              
                ps = c.prepareStatement(SQL);

@@ -11,5 +11,5 @@ package com.uas.documentRelationship;
  */
 public interface DocumentRelationshipInterface {
     DocumentRelationshipDTO createDocumentRelationship (DocumentRelationshipDTO dto);
-     
+     DocumentRelationshipDTO deleteDocumentRelationship (DocumentRelationshipDTO dto);
 }

@@ -6,6 +6,7 @@
 package com.uas.documentRelationship;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class DocumentRelationshipDAO implements DocumentRelationshipInterface{
         
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"documentRelationships\" (\"idDocumentParent\",\"idDocumentChild\") VALUES (?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          
@@ -64,6 +65,49 @@ public class DocumentRelationshipDAO implements DocumentRelationshipInterface{
             }
         }
     return dto;}
+
+    @Override
+    public DocumentRelationshipDTO deleteDocumentRelationship(DocumentRelationshipDTO dto) {
+         PreparedStatement preparedStmt = null;
+        Connection c = null;
+        ResultSet rs =null;
+        
+                 
+         try {
+       c = DataSourceSingleton.getInstance().getConnection(); 
+          String SQL = "delete from \"public\".\"documentRelationships\" where  \"idDocumentChild\"=? ";
+     	preparedStmt = c.prepareStatement(SQL);
+         
+         
+         preparedStmt.setInt(1, dto.getIdDocumentChild());
+         
+             preparedStmt.executeUpdate();
+         
+         }
+          catch (Exception e)
+            {
+        	e.printStackTrace();
+            }
+        finally{
+            try {
+               if (c != null) {
+                    c.close();
+                }
+                if (rs != null) {
+
+                    rs.close();
+                }
+                if (preparedStmt != null) {
+                    preparedStmt.close();
+                }
+                    
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    return dto;
+    }
 
     
 }

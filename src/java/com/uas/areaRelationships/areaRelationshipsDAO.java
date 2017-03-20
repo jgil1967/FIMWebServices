@@ -6,6 +6,7 @@
 package com.uas.areaRelationships;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class areaRelationshipsDAO implements areaRelationshipsInterface{
         // 
               //   
          try {
-          c = DataSource.getInstance().getConnection();
+          c = DataSourceSingleton.getInstance().getConnection();
           String SQL = "INSERT INTO \"public\".\"areaRelationships\" (\"idArea1\",\"idArea2\") VALUES (?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dto.getIdArea1());
@@ -69,7 +70,7 @@ public class areaRelationshipsDAO implements areaRelationshipsInterface{
         
               
         try {
-          c = DataSource.getInstance().getConnection();  String SQL = "delete from \"public\".\"areaRelationships\" where \"idArea1\"=? and \"idArea2\"=? ";
+          c = DataSourceSingleton.getInstance().getConnection();  String SQL = "delete from \"public\".\"areaRelationships\" where \"idArea1\"=? and \"idArea2\"=? ";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, dto.getIdArea1());
          preparedStmt.setInt(2, dto.getIdArea2());   
@@ -110,7 +111,7 @@ public class areaRelationshipsDAO implements areaRelationshipsInterface{
         ResultSet rs =null;
         // 
         try {
-          c = DataSource.getInstance().getConnection();
+          c = DataSourceSingleton.getInstance().getConnection();
           String SQL = "update \"public\".\"areaRelationships\" set \"uploadAndEdit\"=? where \"idArea1\"=? and \"idArea2\"=? ";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setBoolean(1, dto.isUploadAndEdit());

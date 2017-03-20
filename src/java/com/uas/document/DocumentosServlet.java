@@ -28,13 +28,14 @@ public class DocumentosServlet extends HttpServlet {
     {
         
     areaFacade fac = new areaFacade();
-     //   ArrayList<areaDTO> list = fac.getAreas();
-    //fac.crearCarpetasAPartirDeAreas(list);
+      ArrayList<areaDTO> list = fac.getAreas();
+    fac.crearCarpetasAPartirDeAreas(list);
     class SayHello extends TimerTask {
     public void run() {
       //pFac = new PGSQLFacade ();
      //pFac.liberarConexiones();
     }
+    
 }
 
  

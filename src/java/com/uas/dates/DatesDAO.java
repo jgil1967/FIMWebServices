@@ -1,6 +1,7 @@
 package com.uas.dates;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +30,7 @@ ResultSet rs = null;
         PreparedStatement ps = null;
        
           try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "SELECT( SELECT \"object\".\"createdOn\" FROM \"document\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" ORDER BY \"object\".\"createdOn\" ASC LIMIT 1) AS oldestCreatedOn,( SELECT \"object\".\"createdOn\" FROM \"document\" JOIN \"object\" ON \"document\".\"id\" = \"object\".\"id\" ORDER BY \"object\".\"createdOn\" DESC LIMIT 1) AS newestCreatedOn,( SELECT \"document\".\"fileDate\" FROM \"document\" ORDER BY \"document\".\"fileDate\" ASC LIMIT 1) AS oldestFileDate,( SELECT \"document\".\"fileDate\" FROM \"document\" ORDER BY \"document\".\"fileDate\" DESC LIMIT 1) AS newestFileDate";
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();

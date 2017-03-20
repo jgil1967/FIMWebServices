@@ -1,0 +1,144 @@
+  html,	body{
+              height: 100%;
+                width: 100%;
+	/* background-color: #000000;*/
+   padding: 0px;
+   margin: 0px;
+ }
+
+.gradient
+{
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.wellText{
+    color: white;
+    font-size: 10px;
+    font-family: arial;
+    
+}
+
+.date {
+    float: right;
+    text-align: right;
+}
+
+             #logo path {
+    fill: red;
+}
+              #logo {
+    fill: red;
+}
+        
+
+         md-content.md-default-theme, md-content {
+
+        background-color: rgb(250,250,250);
+    }
+     .paquete {
+           fill:#01579b;
+       } 
+   
+   
+md-backdrop.md-opaque.md-default-theme,
+.md-dialog-container {
+ /* position:fixed; */
+
+svg {
+    fill: red;
+    color:red;
+}
+.noStuff{
+    color: black !important;
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal; }
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {
+  border-bottom-width: 0; }
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title,
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
+  display: block;
+  line-height: 2; }
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
+  height: 18px;
+  width: 18px; }
+
+  .css-form input.ng-invalid.ng-touched {
+  border-bottom: 2px solid red;
+   color:#ffffff ;
+  }
+
+  .css-form input.ng-valid.ng-touched {
+ border-bottom: 2px solid lightgreen;
+  color: #000000  ;
+  }
+ .css-form textarea.ng-invalid {
+border-bottom: 2px solid red;
+}
+.css-form textarea.ng-valid {
+border-bottom: 2px solid lightgreen;
+}
+
+.dialogdemoBasicUsage #popupContainer {
+  position: relative; }
+
+.dialogdemoBasicUsage .footer {
+  width: 100%;
+  text-align: center;
+  margin-left: 20px; }
+
+.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+  font-size: 0.8em;
+  margin-top: 50px; }
+
+.dialogdemoBasicUsage button {
+  width: 200px; }
+
+.dialogdemoBasicUsage div#status {
+  color: #c60008; }
+
+.dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+  margin-bottom: 0; }
+
+.autocomplete label {
+    font-size: 15px;
+}
+
+.autocomplete {
+    padding-bottom: 4%;
+}
+
+
+
+.ripplelink2{
+  
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  min-height: 200px;
+  /*max-height: 250px;*/
+}
+
+.ripplelink2:hover{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+      -webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+  -moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+}
+
+a{
+  color: black;
+text-decoration: none !important;  
+}

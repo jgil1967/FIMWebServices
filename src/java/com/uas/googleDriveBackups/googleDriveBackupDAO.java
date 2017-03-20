@@ -6,6 +6,7 @@
 package com.uas.googleDriveBackups;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.document.DocumentDTO;
 import java.sql.Connection;
@@ -26,7 +27,7 @@ public class googleDriveBackupDAO implements googleDriveBackupInterface{
         ResultSet rs =null;
         
          try {
-         c = DataSource.getInstance().getConnection(); 
+         c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"googleDriveBackups\" (\"id\",\"fileName\",\"length\") VALUES (?,?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setString(1, dto.getId());
@@ -66,7 +67,7 @@ public class googleDriveBackupDAO implements googleDriveBackupInterface{
         PreparedStatement ps = null;
        list = new ArrayList<googleDriveBackupDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"googleDriveBackups\".\"fileName\", \"googleDriveBackups\".\"id\", \"googleDriveBackups\".\"date\", \"googleDriveBackups\".\"length\" FROM \"googleDriveBackups\" order by \"googleDriveBackups\".\"date\" desc";
              
                ps = c.prepareStatement(SQL);

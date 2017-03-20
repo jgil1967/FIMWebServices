@@ -6,6 +6,7 @@
 package com.uas.postgresql;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.properties.PropertiesFacade;
 import java.sql.Connection;
@@ -29,7 +30,7 @@ public class PGSQLDAO implements PGSQLInterface{
         PreparedStatement ps = null;
         
         try {
-           c = DataSource.getInstance().getConnection(); 
+           c = DataSourceSingleton.getInstance().getConnection(); 
            
            String SQL = "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND datname = ?";
            

@@ -20,6 +20,7 @@ import com.uas.dbBackup.DbBackupFacade;
 import com.uas.document.DocumentDTO;
 import com.uas.document.DocumentDTOWithFolderDTO;
 import com.uas.document.DocumentFacade;
+import com.uas.document.DocumentGovernmentDTO;
 import com.uas.documentKeywordRelationship.documentKeywordRelationshipDTO;
 import com.uas.documentKeywordRelationship.documentKeywordRelationshipFacade;
 import com.uas.documentRelationship.DocumentRelationshipDTO;
@@ -169,6 +170,26 @@ public class apiUas {
             
              return "helloworld";
                 }
+                
+                   @GET
+		 @Produces(MediaType.APPLICATION_JSON)
+                 @Path("/getDocumentGovernment")
+		public DocumentGovernmentDTO getDocumentGovernment() 
+                {
+                    DocumentFacade documentFacade = new DocumentFacade ();
+                    return documentFacade.getDocumentGovernment();
+                }
+                
+                  @GET
+		 @Produces(MediaType.APPLICATION_JSON)
+                 @Path("/getFolders")
+		public ArrayList<DocumentDTO> getFolders() 
+                {
+                    DocumentFacade documentFacade = new DocumentFacade ();
+                    return documentFacade.getFolders();
+                }
+                
+                
                   @GET
 		 @Produces(MediaType.APPLICATION_JSON)
                  @Path("/getDocuments")
@@ -338,6 +359,20 @@ public class apiUas {
        dto =  dFac.createDocument(dto);
        return dto;
     }
+    //Hacer relaciones que esten ligadas con el 0 a la raiz
+    //Cuando el padre es 0 toma a todos los hijos de esa y los convierte a 0 para que ahora ellos vayan en la raiz
+    //O simplemente que no puedas mover a los de tus descendientes
+    //Mejor eso. que no puedas move a uno de tus descendientes
+      @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/moveDocuments")
+    public  String moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents) throws IOException{
+       dFac = new DocumentFacade();
+          return dFac.moveDocuments(documents);
+      }
+    
+    
     
               @POST
     @Consumes({MediaType.APPLICATION_JSON})
@@ -348,45 +383,14 @@ public class apiUas {
         
          
           DocumentDTOWithFolderDTO newDto = null;
+          DocumentFacade fac = new DocumentFacade(); 
       if (dDto.getIsFolder()){
-               DocumentFacade fac = new DocumentFacade();
+               
                fac.createFolder(dDto);
       }else{
-          DocumentFacade fac = new DocumentFacade();
+          
           fac.createDocument2(dDto);
-          /*
-           aFac = new areaFacade();
-          areaDTO a = new areaDTO();
-          a.setId(dDto.getIdArea());
-          String areaFolder = aFac.getAreaByID(a).getFolderName();
-          System.out.println("ES UN DOCUMENTO");
-          
-          
-          if (dDto.getIsInsideFolder()){
-              System.out.println("dDto folder : " + dDto.getFolder().getName());
-              File afile =new File(returnPath("pathForTemporaryFiles") + dDto.getFilename());
-              if (dDto.getFolder().getDeleted()){
-                   afile.renameTo(new File( returnPath("pathForTrash") +  dDto.getFolder().getName() +"/"+  dDto.getFilename()));
-         
-              }
-              else{
-                 afile.renameTo(new File( returnPath("pathForFiles") +  dDto.getFolder().getName() +"/"+  dDto.getFilename()));
-              }
-              DocumentRelationshipFacade fac = new DocumentRelationshipFacade();
-          newDto =  guardarDocumentoEnBD(dDto);
-          DocumentRelationshipDTO dto = new DocumentRelationshipDTO();
-         dto.setIdDocumentChild(newDto.getId());
-         dto.setIdDocumentParent(dDto.getFolder().getId());
-         fac.createDocumentRelationship(dto);
-
-          }
-          //////EMPEZAR POR ESTE
-          else{
-              File afile =new File(returnPath("pathForTemporaryFiles") + dDto.getFilename());
-              afile.renameTo(new File( returnPath("pathForFiles") + areaFolder+"/"+  dDto.getFilename()));
-         newDto =  guardarDocumentoEnBD(dDto);
-          } 
-*/
+        
       }
      
        return newDto;
@@ -414,8 +418,13 @@ public class apiUas {
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
-        File fileOriginal = new File (dto.getFullPathToFolderInDeleted());
-         fileOriginal.renameTo(new File(dto.getFullPathToFolder()));
+        
+        
+         Files.createDirectories(Paths.get(dto.getFullPathToFolder()).getParent()); 
+         Files.move(Paths.get(dto.getFullPathToFolderInDeleted()), Paths.get(dto.getFullPathToFolder()));
+         
+           
+         //fileOriginal.renameTo(new File(dto.getFullPathToFolder()));
            
            dDto.setDeleted(false);
          fac.updateDocument(dDto);
@@ -463,10 +472,11 @@ public class apiUas {
         dto.setId(dDto.getId());
         DocumentFacade fac = new DocumentFacade();
         dto = fac.getDocument(dto);
-        File fileOriginal = new File (dto.getFullPathToFolder());
-        fileOriginal.renameTo(new File(dto.getFullPathToFolderInDeleted()));
-           
-           dDto.setDeleted(true);
+        System.out.println("dto.getFullPathToFolder() : " + dto.getFullPathToFolder());
+        System.out.println("dto.getFullPathToFolderInDeleted() : " + dto.getFullPathToFolderInDeleted());
+        Files.createDirectories(Paths.get(dto.getFullPathToFolderInDeleted()).getParent()); 
+         Files.move(Paths.get(dto.getFullPathToFolder()), Paths.get(dto.getFullPathToFolderInDeleted()));
+        dDto.setDeleted(true);
          fac.updateDocument(dDto);
            TransactionRecordFacade tFac = new TransactionRecordFacade();
              TransactionRecordDTO tDto = new TransactionRecordDTO();
@@ -487,8 +497,8 @@ public class apiUas {
     {
      String original = returnPath("pathForFiles")+dDto.getFilename();   
       String originalTrash = returnPath("pathForTrash")+dDto.getFilename();   
-        System.out.println("original " +original);
-        System.out.println("originalTrash  " +originalTrash);
+       
+       
         if (dDto.getIsFolder()){
             nombreOriginal = dDto.getFilename();
          String rutaAGuardar =  checkIfExistsAndReturnValid(returnPath("pathForFiles")+dDto.getFilename(),dDto.getFilename());
@@ -501,12 +511,12 @@ public class apiUas {
          newfile.renameTo(new File( rutaAGuardar));
             newfileTrash.renameTo(new File( rutaAGuardarTrash));
              String name = rutaAGuardar.substring( rutaAGuardar.lastIndexOf("/")+1, rutaAGuardar.length());
-           dDto.setName(name);
+           
 //No veo por que tiene que cambiar el filename          
 //es importante en las carpetas            
 dDto.setFilename(name);
-            System.out.println("name a guardar : " +name);
-          System.out.println("filename a guardar : " +dDto.getFilename());
+       
+       
         }
         
        oFac = new ObjectFacade();
@@ -524,6 +534,9 @@ dDto.setFilename(name);
        dFac = new DocumentFacade();
        return  dFac.searchDocuments(dDto);
     }
+    
+    
+    
             @POST
     @Consumes({MediaType.APPLICATION_JSON})
      @Produces(MediaType.APPLICATION_JSON)

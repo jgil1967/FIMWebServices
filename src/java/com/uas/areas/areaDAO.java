@@ -7,6 +7,7 @@ package com.uas.areas;
 
 import com.uas.Files.FilesFacade;
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.properties.PropertiesFacade;
 import com.uas.transactionRecord.TransactionRecordDTO;
@@ -30,7 +31,7 @@ public class areaDAO implements areaInterface {
         Connection c = null;
         ResultSet rs = null;
       try {
-          c = DataSource.getInstance().getConnection();  
+          c = DataSourceSingleton.getInstance().getConnection();  
           
             String SQL = "INSERT INTO \"public\".\"area\" (\"id\",\"superuser\",\"enabled\") VALUES (?,?,?)";
             preparedStmt = c.prepareStatement(SQL);
@@ -81,7 +82,7 @@ public class areaDAO implements areaInterface {
         PreparedStatement ps = null;
         list = new ArrayList<areaDTO>();
        try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "SELECT \"area\".\"id\", \"area\".\"superuser\", \"area\".\"enabled\", \"object\".\"name\", \"area\".\"folderName\" FROM \"area\" JOIN \"object\" ON \"area\".\"id\" = \"object\".\"id\"";
             ps = c.prepareStatement(SQL);
             rs = ps.executeQuery();
@@ -126,7 +127,7 @@ public class areaDAO implements areaInterface {
         PreparedStatement ps = null;
         list = new ArrayList<areaDTO>();
        try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "SELECT \"area\".\"id\", \"object\".\"name\" FROM \"area\" JOIN \"object\" ON \"area\".\"id\" = \"object\".\"id\" WHERE \"area\".\"id\" NOT IN( SELECT \"object\".\"id\" FROM \"areaRelationships\" JOIN \"object\" ON \"areaRelationships\".\"idArea2\" = \"object\".\"id\" WHERE \"areaRelationships\".\"idArea1\" = ?) ";
             ps = c.prepareStatement(SQL);
             ps.setInt(1, oDto.getId());
@@ -177,7 +178,7 @@ public class areaDAO implements areaInterface {
         PreparedStatement ps = null;
         list = new ArrayList<areaDTO>();
          try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
           
             String SQL = "SELECT \"object\".\"name\", \"object\".\"id\", \"areaRelationships\".\"idArea1\",\"areaRelationships\".\"uploadAndEdit\" FROM \"areaRelationships\" JOIN \"object\" ON \"areaRelationships\".\"idArea2\" = \"object\".\"id\" where \"areaRelationships\".\"idArea1\" = ? ";
             ps = c.prepareStatement(SQL);
@@ -229,7 +230,7 @@ public class areaDAO implements areaInterface {
         PreparedStatement ps = null;
         list = new ArrayList<areaDTO>();
          try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "SELECT \"object\".\"name\", \"object\".\"id\", \"areaRelationships\".\"idArea1\",\"areaRelationships\".\"uploadAndEdit\" FROM \"areaRelationships\" JOIN \"object\" ON \"areaRelationships\".\"idArea2\" = \"object\".\"id\" JOIN \"area\" ON \"areaRelationships\".\"idArea2\" = \"area\".\"id\" where \"areaRelationships\".\"idArea1\" = ? and \"area\".\"enabled\" = TRUE order by \"object\".\"name\" asc";
             ps = c.prepareStatement(SQL);
             ps.setInt(1, oDto.getId());
@@ -276,7 +277,7 @@ public class areaDAO implements areaInterface {
         // 
         
          try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "update \"public\".\"area\" set \"superuser\"=?, \"enabled\"=? where \"id\"=?";
             preparedStmt = c.prepareStatement(SQL);
             preparedStmt.setBoolean(1, dto.isSuperuser());
@@ -365,7 +366,7 @@ public class areaDAO implements areaInterface {
         ResultSet rs = null;
         
          try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
             String SQL = "update \"public\".\"area\" set \"folderName\"=? where \"id\"=?";
             preparedStmt = c.prepareStatement(SQL);
             preparedStmt.setString(1, dto.getFolderName());
@@ -409,7 +410,7 @@ public class areaDAO implements areaInterface {
         PreparedStatement ps = null;
         
           try {
-          c = DataSource.getInstance().getConnection(); 
+          c = DataSourceSingleton.getInstance().getConnection(); 
            String SQL = "SELECT \"area\".\"id\", \"area\".\"superuser\", \"area\".\"enabled\", \"object\".\"name\", \"area\".\"folderName\" FROM \"area\" JOIN \"object\" ON \"area\".\"id\" = \"object\".\"id\" where \"area\".\"id\" = ?";
             ps = c.prepareStatement(SQL);
             ps.setInt(1, dto.getId());

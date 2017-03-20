@@ -12,6 +12,7 @@ import com.uas.usuarios.UsuarioDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,16 +29,32 @@ public class DocumentDTO extends ObjectDTO implements Serializable {
     int idArea;
     UsuarioDTO user;
     areaDTO area;
-    Boolean visible = true, deleted = false,backedUp=false, isFolder=false,isInsideFolder=false, ascendenteBorrado=false;
+    Boolean visible = true, deleted = false,backedUp=false, isFolder=false,isInsideFolder=false, ascendenteBorrado=false,vengoDeRootYPuedoCambiarDeArea=false;
     int idUsuario;
     String fullPathToFolder,fullPathToFolderInDeleted, subFullPathToFolder;
-
+    List <DocumentDTO> children;
     public String getSubFullPathToFolder() {
         return subFullPathToFolder;
     }
 
     public void setSubFullPathToFolder(String subFullPathToFolder) {
         this.subFullPathToFolder = subFullPathToFolder;
+    }
+
+    public List<DocumentDTO> getChildren() {
+        return children;
+    }
+
+    public Boolean getVengoDeRootYPuedoCambiarDeArea() {
+        return vengoDeRootYPuedoCambiarDeArea;
+    }
+
+    public void setVengoDeRootYPuedoCambiarDeArea(Boolean vengoDeRootYPuedoCambiarDeArea) {
+        this.vengoDeRootYPuedoCambiarDeArea = vengoDeRootYPuedoCambiarDeArea;
+    }
+
+    public void setChildren(List<DocumentDTO> children) {
+        this.children = children;
     }
 
     

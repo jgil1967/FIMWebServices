@@ -1,0 +1,29 @@
+<md-button  class="md-primary md-raised" ng-disabled="trabajando == true" ng-click="createDocumentsBackupData($event);">
+       Solicitar respaldo de documentos
+    </md-button>
+
+<md-table-container>
+  <table data-md-table data-md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" data-ng-model="selected" md-progress="promise">
+
+    <thead ng-if="!options.decapitate" md-head data-md-order="query.order" md-on-reorder="onReorder">
+      <tr md-row>
+        <th md-column md:order:by="fileName"><span>Nombre</span></th>
+        <th md-column md:order:by="date"><span>Fecha</span></th>
+
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row md-select="table" md-select-id="name" data-md-on-select="log" md-on-deselect="deselect" x-md-auto-select="options.autoSelect"  data-ng-repeat="document in  documentBackups">
+     <td md-cell>{{ document.fileName }}</td>
+     <td md-cell>{{document.date | date:'yyyy-MM-dd HH:mm:ss Z' }}</td>
+
+      
+
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>
+
+<data-md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{documentBackups.length}}" md-on-paginate="onPaginate" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks">
+    
+</data-md-table-pagination>

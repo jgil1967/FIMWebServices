@@ -19,6 +19,9 @@ public interface DocumentInterface {
      DocumentDTOWithFolderDTO createFolder(DocumentDTOWithFolderDTO dDto);
      DocumentDTOWithFolderDTO createDocument2(DocumentDTOWithFolderDTO dDto);
        ArrayList<DocumentDTOWithFolderDTO> getDocuments();
+       ArrayList<DocumentDTO> getFolders();
+       ArrayList<DocumentDTO> getFoldersChildren(DocumentDTO dto);
+       Boolean verificaSiEsDescendiente(ArrayList<DocumentDTOWithFolderDTO> documents);
        ArrayList<DocumentDTOWithFolderDTO> getDocumentsByFolder(DocumentDTOWithFolderDTO dto);
        ArrayList<DocumentDTO> getDocumentsOnlyEnabled(ArrayList<areaDTO> areas);
        ArrayList<DocumentDTOWithFolderDTO> getDocuments(FiltersDTO filters);
@@ -26,4 +29,6 @@ public interface DocumentInterface {
      DocumentDTOWithFolderDTO updateDocument(DocumentDTOWithFolderDTO dDto);
        ArrayList <DocumentDTO> searchDocuments (DocumentDTO oDto);
         ArrayList<DocumentDTO> getDocumentsByUser(UsuarioDTO dto) ;
+        DocumentGovernmentDTO getDocumentGovernment ();
+        String moveDocuments (ArrayList<DocumentDTOWithFolderDTO> documents);
 }

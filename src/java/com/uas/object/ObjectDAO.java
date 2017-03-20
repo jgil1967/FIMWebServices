@@ -6,6 +6,7 @@
 package com.uas.object;
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class ObjectDAO implements ObjectInterface {
         // 
                  
          try {
-       c = DataSource.getInstance().getConnection(); 
+       c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"object\" (\"name\", \"description\", \"color\", \"kind\", \"createdBy\") VALUES (?, ?, ?,?,?) returning id;";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setString(1, oDto.getName());
@@ -75,7 +76,7 @@ public class ObjectDAO implements ObjectInterface {
         PreparedStatement preparedStmt = null;
      
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "update \"public\".\"object\" set \"name\"=?, \"description\"=?, \"color\"=? where \"id\"=? ";
                 preparedStmt = c.prepareStatement(SQL);
                 preparedStmt.setString(1, oDto.getName());
@@ -120,7 +121,7 @@ ResultSet rs = null;
         PreparedStatement ps = null;
        objects= new ArrayList<ObjectDTO>  ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"object\".\"name\", \"object\".\"description\", \"object\".\"kind\", \"object\".\"id\", \"object\".\"color\" FROM \"object\" WHERE \"object\".\"kind\" = 'document'";
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();

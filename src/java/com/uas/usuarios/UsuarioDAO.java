@@ -7,6 +7,7 @@ package com.uas.usuarios;
 
 
 import com.uas.dbutil.DataSource;
+import com.uas.dbutil.DataSourceSingleton;
 import com.uas.dbutil.getTomcatDataSource;
 import com.uas.transactionRecord.TransactionRecordDTO;
 import com.uas.transactionRecord.TransactionRecordFacade;
@@ -30,7 +31,7 @@ public class UsuarioDAO implements UsuarioInterface{
         ResultSet rs =null;
         
          try {
-         c = DataSource.getInstance().getConnection(); 
+         c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "INSERT INTO \"public\".\"usuario\" (\"id\",\"contraseña\",\"isAdministrator\",\"enabled\",\"idArea\",\"root\") VALUES (?,?,?,?,?,?)";
      	preparedStmt = c.prepareStatement(SQL);
          preparedStmt.setInt(1, oDto.getId());
@@ -81,7 +82,7 @@ public class UsuarioDAO implements UsuarioInterface{
         PreparedStatement ps = null;
        lista = new ArrayList<UsuarioDTO> ();
          try{
-                c = DataSource.getInstance().getConnection(); 
+                c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"usuario\".\"id\", \"usuario\".\"root\", \"usuario\".\"contraseña\", \"usuario\".\"isAdministrator\", \"object\".\"name\", \"object\".\"description\", \"object\".\"createdOn\", \"object\".\"createdBy\", \"object\".\"color\", \"object\".\"kind\", \"usuario\".\"enabled\" AS \"enabledUser\", \"area\".\"enabled\" AS \"enabledArea\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" JOIN \"area\" ON \"usuario\".\"idArea\" = \"area\".\"id\" where \"object\".\"name\" = ? and \"usuario\".\"contraseña\" = ? and \"usuario\".\"enabled\" = true and  \"area\".\"enabled\" = true ";
                ps = c.prepareStatement(SQL);
                ps.setString(1, dto.getName());
@@ -138,7 +139,7 @@ public class UsuarioDAO implements UsuarioInterface{
         PreparedStatement ps = null;
        list = new ArrayList<UsuarioDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"usuario\".\"id\",\"usuario\".\"root\", \"usuario\".\"contraseña\", \"usuario\".\"idArea\", \"usuario\".\"isAdministrator\", \"usuario\".\"enabled\", \"object\".\"name\", \"object\".\"createdBy\", \"object2\".\"name\" AS \"nameArea\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" JOIN \"object\" AS \"object2\" ON \"usuario\".\"idArea\" = \"object2\".\"id\"";
                if  (!uDto.getName().equals("root0")){
                    SQL = SQL + "WHERE  \"object\".\"name\" != 'root0'";
@@ -192,7 +193,7 @@ public class UsuarioDAO implements UsuarioInterface{
         // 
                  
          try {
-         c = DataSource.getInstance().getConnection(); 
+         c = DataSourceSingleton.getInstance().getConnection(); 
           String SQL = "update \"public\".\"usuario\" set \"enabled\"=?, \"contraseña\"=?, \"isAdministrator\"=?,\"idArea\"=?,\"root\"=?   where \"id\"=? ";
      	preparedStmt = c.prepareStatement(SQL);
          
@@ -246,7 +247,7 @@ public class UsuarioDAO implements UsuarioInterface{
         PreparedStatement ps = null;
        
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"object\".\"name\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" where \"object\".\"name\" = ?";
                ps = c.prepareStatement(SQL);
               // System.out.println("dto.getName(); " + dto.getName());
@@ -292,7 +293,7 @@ public class UsuarioDAO implements UsuarioInterface{
         PreparedStatement ps = null;
        
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"usuario\".\"id\", \"usuario\".\"root\", \"usuario\".\"contraseña\", \"usuario\".\"idArea\", \"usuario\".\"isAdministrator\", \"usuario\".\"enabled\", \"object\".\"name\", \"object\".\"createdBy\", \"area\".\"superuser\", \"object2\".\"name\" AS \"nameArea\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" JOIN \"area\" ON \"usuario\".\"idArea\" = \"area\".\"id\" JOIN \"object\" AS \"object2\" ON \"area\".\"id\" = \"object2\".\"id\" where \"usuario\".\"id\" = ?";
                ps = c.prepareStatement(SQL);
                ps.setInt(1, dto.getId());
@@ -348,7 +349,7 @@ public class UsuarioDAO implements UsuarioInterface{
         PreparedStatement ps = null;
        list = new ArrayList<UsuarioDTO> ();
          try{
-              c = DataSource.getInstance().getConnection(); 
+              c = DataSourceSingleton.getInstance().getConnection(); 
                String SQL = "SELECT \"usuario\".\"id\",\"usuario\".\"root\", \"usuario\".\"contraseña\", \"usuario\".\"idArea\", \"usuario\".\"isAdministrator\", \"usuario\".\"enabled\", \"object\".\"name\", \"object\".\"createdBy\", \"object2\".\"name\" AS \"nameArea\" FROM \"usuario\" JOIN \"object\" ON \"usuario\".\"id\" = \"object\".\"id\" JOIN \"object\" AS \"object2\" ON \"usuario\".\"idArea\" = \"object2\".\"id\" where \"usuario\".\"root\" = FALSE AND \"usuario\".\"isAdministrator\" = FALSE  ";
                ps = c.prepareStatement(SQL);
                  rs = ps.executeQuery();
