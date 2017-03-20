@@ -27,15 +27,30 @@ public class FilesDAO implements FilesInterface {
        
     
     try {
-         File f = null;
-    for (int i = 1;1<=100; i++) {
-        f = new File(String.format(nombre, i));
-        if (!f.exists()) {
-            nombre = nombre+"("+i+")";
-           
-            
-        }
-          return nombre;}
+       Boolean searching = true;
+        int count = 1;
+while (searching) {
+  
+   File f = new File(nombre);
+
+    if(f.exists()) {
+        count++;
+    } else {
+        nombre = nombre + "( " + count + ")";
+        searching = false;
+        return nombre;
+    }
+} 
+
+//         File f = null;
+//    for (int i = 1;1<=100; i++) {
+//        f = new File(String.format(nombre, i));
+//        if (!f.exists()) {
+//            nombre = nombre+"("+i+")";
+//        }
+//          return nombre;}
+    
+    
     } catch (Exception e) {
         e.printStackTrace();
     }

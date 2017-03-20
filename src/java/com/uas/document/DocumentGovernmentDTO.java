@@ -16,6 +16,7 @@ public class DocumentGovernmentDTO extends DocumentDTO {
     public DocumentGovernmentDTO() {
         name = "Raiz";
         id = 0;
+        idArea = 0;
     }
 
     public List<DocumentDTO> getChildren() {

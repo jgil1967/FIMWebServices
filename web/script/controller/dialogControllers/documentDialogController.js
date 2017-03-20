@@ -396,8 +396,9 @@ $scope.nuevoDocumentFolder = function () {
                                     }
                                 });
                                 $scope.document.keywords = $scope.tags;
-                               // location.reload();
+                              
                                 documentosService.addToList($scope.document);
+                                location.reload();
                             });
                                 
                                 $scope.trabajando = false;

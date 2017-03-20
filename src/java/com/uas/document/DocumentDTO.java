@@ -17,11 +17,13 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * 
  *
  * @author jonathangil
  */
 @XmlRootElement()
 public class DocumentDTO extends ObjectDTO implements Serializable {
+    
     String filename;
     ArrayList <KeywordDTO> keywords;
     String fileDate;

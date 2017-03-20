@@ -846,7 +846,7 @@ if (rs.next()) {
              }
           document.setFullPathToFolder( carpetaDestinoParaGrabar  + aDto.getFolderName() + "/"+fullPath);
          FilesFacade fFac = new FilesFacade();
-        Boolean resultado = fFac.verificaSiExiste(document.getFullPathToFolder());
+      
         if (fFac.verificaSiExiste(document.getFullPathToFolder())){
              document.setFullPathToFolder(fFac.retornaNombreBienParaCarpeta(document.getFullPathToFolder())); ;
           }
@@ -1084,27 +1084,38 @@ if (document.getFolder().getId() != 0){
     @Override
     public String moveDocuments(ArrayList<DocumentDTOWithFolderDTO> documents) {
         
-            
+          //Verificar si existe desde el comienzo  
+      
     try {
-        
+        //No esta agarrando bien el origen
         if (!verificaSiEsDescendiente(documents)){
             
             
         DocumentFacade doFac = new DocumentFacade(); 
           DocumentDTOWithFolderDTO documentoOriginal = documents.get(0);
+            
           DocumentDTOWithFolderDTO documentoDestino = documents.get(1);
+          ///////////////////////////////////
+          documentoOriginal = doFac.getDocument(documentoOriginal);
+          System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolder());
+            System.out.println("documentoOriginal : " + documentoOriginal.getFullPathToFolderInDeleted());
+          //////////////////////////////////
           DocumentRelationshipDTO drDto = new DocumentRelationshipDTO ();
           drDto.setIdDocumentChild(documentoOriginal.getId());
           DocumentRelationshipFacade fac = new DocumentRelationshipFacade();
           fac.deleteDocumentRelationship(drDto);
          ///////////////////////////////////
-          documentoOriginal = doFac.getDocument(documentoOriginal);
-          if (documents.get(1).getId() != 0){
+          
+            
+            
+            System.out.println("documents.get(1).getId()  : " + documents.get(1).getId() );
+          if (documents.get(1).getId() != 1){
               documentoDestino = doFac.getDocument(documentoDestino);
-              if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea()){
+              if (documentoOriginal.getIdArea()!= documentoDestino.getIdArea() ){
                   System.out.println("son de áreas diferentes, vamos a poner ORDEN EN ESTA VIDA PERROS : documentoDestino.getIdArea() : " + documentoDestino.getIdArea() );
                   documentoOriginal.setIdArea(documentoDestino.getIdArea());
                   doFac.updateDocument(documentoOriginal);
+                  //documentoOriginal = doFac.getDocument(documentoOriginal);
               }
               
           drDto = new DocumentRelationshipDTO ();
@@ -1113,9 +1124,11 @@ if (document.getFolder().getId() != 0){
           fac.createDocumentRelationship(drDto);
           }
           else{
+              System.out.println("HASTA LA RAIZ WEY");
               PropertiesFacade pDto = new PropertiesFacade();
                 String pathTrash = pDto.obtenerValorPropiedad("pathForTrash");
                 String fullPathOriginal =  pDto.obtenerValorPropiedad("pathForFiles");
+                ///AQUI FALTA EL C1
               documentoDestino.setFullPathToFolder(fullPathOriginal+documentoOriginal.getArea().getFolderName());
               documentoDestino.setFullPathToFolderInDeleted(pathTrash+documentoOriginal.getArea().getFolderName());
               
@@ -1139,14 +1152,27 @@ if (document.getFolder().getId() != 0){
                
               }
               else{
-                pathDestino = documentoDestino.getFullPathToFolder() + "/" + documentoOriginal.getFilename();
+                pathDestino = documentoDestino.getFullPathToFolder()  + "/" + documentoOriginal.getFilename();
                  
               }
-           
+            FilesFacade fFac = new FilesFacade();
+             if (fFac.verificaSiExiste(pathDestino)){
+                 System.out.println("YA EXISTE ESE NOMBRE");
+             pathDestino = fFac.retornaNombreBienParaCarpeta(pathDestino) ;
+             System.out.println("pathDestino new : " + pathDestino);
+             String nuevoFileName = pathDestino.substring(pathDestino.lastIndexOf("/")+1, pathDestino.length());
+              System.out.println("pathDestino  new solo: " + nuevoFileName);
+              documentoOriginal.setFilename(nuevoFileName);
+          }
+            
+            
         Files.createDirectories(Paths.get(pathDestino).getParent());
    
           System.out.println("pathOrigen :" + pathOrigen);
           System.out.println("pathDestino :" + pathDestino);
+          
+          
+      
          Files.move(Paths.get(pathOrigen), Paths.get(pathDestino));
          
             
